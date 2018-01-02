@@ -1,6 +1,20 @@
 ## A simple tutorial on long short-term memory (LSTM) in Python
 
-This tutorial code implements the classic and basic LSTM design. It uses back-propagation-through-time (BPTT) algorithm for learning. It keeps all the forwarding states of every forwarding pass in their respective lists, so that backwarding can pop them for gradients computation. The lastest states of output value h and cell state c are kept in variables (instead of lists) since they are not needed by backwarding. 
+This tutorial code implements the classic and basic LSTM design. It uses back-propagation-through-time (BPTT) algorithm for learning. The flow graph of a LSTM cell is given below:
+``` 
+              inxh      c           outc
+      .--(Act)---x---+-----.---(Act)----x----.--> h
+      |          |   L<-x--J            |    v
+      |          |i     |f              |o   |
+      |          ~      ~               ~    |
+      wx         wi     wf              wo   |
+      |          |      |               |    |
+      ^----------^------^---------------^    |
+                    |x:h                     |
+  input---->--------^--------------<---------/
+```
+
+The implementation keeps all the forwarding states of every forwarding pass in their respective lists, so that backwarding can pop them for gradients computation. The lastest states of output value h and cell state c are kept in variables (instead of lists) since they are not needed by backwarding. 
 
 An example for MNIST is given, with >97% accuracy. The MNIST case uses LSTM in a way that, it splits one digit image data into equal-length pieces, and feeds the pieces into the network one by one recurrently, then outputs the recognization result with a softmax layer. 
 
